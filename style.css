@@ -11,19 +11,20 @@ body {
 }
 
 #mid {
-    
+    margin-top: 50px;
 }
 
 .teamArea {
     margin-top: 30px;
     padding-left: 10px;
-    height: 100px;
+    height: 115px;
     width: 100%;
     font-size: 35px;
+    border-radius: 25px;
 }
 
 #questionNumber {
-    font-size: 45px;
+    font-size: 35px;
 }
 
 #questionArea {
@@ -40,13 +41,17 @@ body {
     font-size: 150px;
 }
 
+.guessing {
+    margin-left: 41%;
+}
+
 #teamName, #teamGuess {
     /* color: green; */
     font-size: 40px;
 }
 
 #message {
-    font-size: 50px;
+    font-size: 40px;
 }
 
 .arrows {
@@ -68,6 +73,11 @@ body {
 
 #checkFinalAnswer {
     font-size: 50px;
+}
+
+#sizing-addon1 {
+    color: white;
+    background-color: gray;
 }
 
 

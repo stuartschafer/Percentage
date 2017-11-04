@@ -27,9 +27,9 @@
 <div class="container">
     <div class="row">
         <!-- This is for Team 1's name  -->
-        <div class="col teamArea" id="one">
+        <div class="col teamArea text-center" id="one">
             <div class="input-group input-group-lg teamButtons" id="team1Button">
-                <span class="input-group-addon" id="sizing-addon1">Team 1</span>
+                <span class="input-group-addon btn-dark" id="sizing-addon1">Team 1</span>
                 <input type="text" id="team1Entry" class="form-control" placeholder="Sparky Moonlight" aria-describedby="sizing-addon1">
             </div>
 
@@ -45,7 +45,7 @@
         </div>
 
         <!-- This is for Team 2's name  -->
-        <div class="col teamArea" id="two">
+        <div class="col teamArea text-center" id="two">
             <div class="input-group input-group-lg teamButtons" id="team2Button">
                 <input type="text" class="form-control" id="team2Entry" placeholder="Bambi Howler" aria-describedby="sizing-addon1">
                 <span class="input-group-addon" id="sizing-addon1">Team 2</span>
@@ -70,7 +70,7 @@
 
     <!-- This will display when a team must make a guess  -->
     <div class="row text-center">
-        <div class="col-md-2 offset-md-4 timer">
+        <div class="col-md-2 offset-md-4 guessing">
             <div class="input-group input-group-lg teamButtons" id="guessArea">
                 <input type="number" class="form-control text-right" id="guess" aria-describedby="sizing-addon1">
                 <span class="input-group-addon" id="sizing-addon23">%</span>
@@ -80,7 +80,7 @@
 
         <!-- This shows a timer for each question  -->
     <div class="row">
-        <div class="col">
+        <div class="col text-center">
             <span id="timer"></span>
             <br>
             <span class="infoSection" id="teamName"></span>

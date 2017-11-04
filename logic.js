@@ -13,20 +13,30 @@ $(document).ready(function() {
     let x = -1;
     let coinflip = 0;
     let time = 0;
+    var wrong = new Audio("wrong.mp3");
     $("#nextQuestion").hide();
     $("#guessArea").hide();
     $(".arrows").hide();
     $("#checkFinalAnswer").hide();
-    let questions = ["What percent of American homes have some sort of computer?",
+    let questions = ["What % of American homes have either a desktop or laptop computer?",
     "Women earn what % of all undergraduate computer and information sciences degrees?",
     "% of Fortune 50 companies that use GITHUB Enterprise",
     "This % of programmer working time is spent surfing the source code. This navigation involves research, observation, information gathering and other activities.",
     "Percentage of bugs that can be discovered (but not necessarily fixed) when more than one person reviews the source code.",
     "In 2017 Q3, Javascript had the highest pull % on GitHub.  What was it?",
     "This percentage of the world’s currency is physical money, the rest only exists on computers."];
-    let answers = [85, 18, 52, 30, 60, 22, 8];
+    let answers = [84, 18, 52, 30, 60, 22, 8];
+    let solutions = ["85% of American homes have either a desktop or laptop computer.",
+    "Women earn 18% of all undergraduate computer and information sciences degrees.",
+    "52% of Fortune 50 companies use GITHUB Enterprise",
+    "30% of programmer working time is spent surfing the source code. This navigation involves research, observation, information gathering and other activities.",
+    "60% of bugs can be discovered (but not necessarily fixed) when more than one person reviews the source code.",
+    "In 2017 Q3, Javascript had the highest pull rate at 22% on GitHub.",
+    "8% of the world’s currency is physical money, the rest only exists on computers."];
+    
 
     $("#beginGame").click(function() {
+        $(".teamArea").css("border", "5px solid darkgreen");
         team1Name = $("#team1Entry").val().trim();
         team2Name = $("#team2Entry").val().trim();
         $(".teamButtons").hide();
@@ -51,7 +61,6 @@ $(document).ready(function() {
     });
 
     $("#nextQuestion").click(function() {
-        $(".teamArea").css("background-color", "black");
         $("#questionNumber").show();
         $(".teamArea").removeClass("pulse");
         $("#guess").val("");
@@ -59,6 +68,7 @@ $(document).ready(function() {
         $("#questionNumber").html("Question Number " + question);
 
         if (question > 1) {
+            $(".teamArea").css("background-color", "black");
             if (firstTeam === team1Name) {
                 firstTeam = team2Name;
                 secondTeam = team1Name;
@@ -105,12 +115,13 @@ $(document).ready(function() {
         $("#questionNumber").empty();
         $("#checkFinalAnswer").hide();
         $("#message").show();
-        $("#message").html("The answer is " + answers[x] + "% and ");
+        $("#questionArea").html(solutions[x]);
+        // $("#message").html("The answer is " + answers[x] + "% and ");
         $("#teamGuess").show();
         
         if ((guess < answers[x] && arrowGuess === "HIGHER") || (guess > answers[x] && arrowGuess === "LOWER")) {
             // secondTeam wins a point
-            $("#message").append(secondTeam + " wins a point!");
+            $("#questionArea").append("<br>" + secondTeam + " wins a point!");
 
             if (secondTeam === team1Name) {
                 $("#one").addClass("pulse");
@@ -125,7 +136,7 @@ $(document).ready(function() {
             }
         } else {
             // firstTeam wins a point
-            $("#message").append(firstTeam + " wins a point!");
+            $("#questionArea").append("<br>" + firstTeam + " wins a point!");
 
             if (firstTeam === team1Name) {
                 $("#one").addClass("pulse");
@@ -159,6 +170,7 @@ $(document).ready(function() {
 
     function count () {
         if (time === 0) {
+            wrong.play();
             clearInterval(intervalId);
             $("#timer").css("font-size", "60px");
             $("#timer").html("TIME TO MAKE A GUESS");
@@ -205,8 +217,9 @@ $(document).ready(function() {
     function checkAnswer() {
         $("#timer").show();
         $(".teamArea").css("background-color", "black");
+        $("#timer").css("color", "white");
         $("#timer").css("font-size", "40px");
-        $("#timer").html(firstTeam + " guessed " + guess + "%, and " + secondTeam + " thinks it is " + arrowGuess);
+        $("#timer").html(firstTeam + " guessed " + guess + "%, and <br>" + secondTeam + " thinks it is " + arrowGuess);
         $("#checkFinalAnswer").fadeIn("slow");
     }
 
