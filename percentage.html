@@ -30,7 +30,7 @@
         <div class="col teamArea" id="one">
             <div class="input-group input-group-lg teamButtons" id="team1Button">
                 <span class="input-group-addon" id="sizing-addon1">Team 1</span>
-                <input type="text" id="team1Entry" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+                <input type="text" id="team1Entry" class="form-control" placeholder="Sparky Moonlight" aria-describedby="sizing-addon1">
             </div>
 
             <span id="team1"></span>
@@ -45,7 +45,7 @@
         <!-- This is for Team 2's name  -->
         <div class="col teamArea" id="two">
             <div class="input-group input-group-lg teamButtons" id="team2Button">
-                <input type="text" class="form-control" id="team2Entry" placeholder="Username" aria-describedby="sizing-addon1">
+                <input type="text" class="form-control" id="team2Entry" placeholder="Bambi Howler" aria-describedby="sizing-addon1">
                 <span class="input-group-addon" id="sizing-addon1">Team 2</span>
             </div>
 
@@ -54,6 +54,7 @@
         </div>
     </div>
 
+    <!-- This section displays the questions  -->
     <div class="row">
         <div class="col questionSection text-center">
             <span id="questionArea"></span>
@@ -62,12 +63,31 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col timer text-center">
-            <span id="timer"></span>
+
+
+    <!-- This will display when a team must make a guess  -->
+    <div class="row text-center">
+        <div class="col-md-2 offset-md-4 timer">
+            <div class="input-group input-group-lg teamButtons" id="guessArea">
+                <input type="text" class="form-control text-right" id="guess" aria-describedby="sizing-addon1">
+                <span class="input-group-addon" id="sizing-addon23">%</span>
+            </div>
         </div>
     </div>
 
+        <!-- This shows a timer for each question  -->
+    <div class="row">
+        <div class="col">
+            <span id="timer"></span>
+            <span class="infoSection" id="teamName"></span>
+            <br>
+            <span class="infoSection" id="message"></span>
+            <br>
+            <span class="infoSection" id="teamGuess"></span>
+        </div>
+    </div>
 
+    <img id="upArrow" class="arrows" src="images/up.gif">
+    <img id="downArrow" class="arrows" src="images/down.gif">
 
 </div>

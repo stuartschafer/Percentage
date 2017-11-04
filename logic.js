@@ -2,9 +2,13 @@ $(document).ready(function() {
     let team1Name = "";
     let team2Name = "";
     let question = 1;
+    let guess = "";
     let x = 0;
-    let time = 300;
+    let coinflip = 0;
+    let time = 0;
     $("#nextQuestion").hide();
+    $("#guessArea").hide();
+    $(".arrows").hide();
     let questions = ["What percent of American homes have some sort of computer?",
     "Women earn what % of all undergraduate computer and information sciences degrees?",
     "% of Fortune 50 companies that use GITHUB Enterprise",
@@ -23,11 +27,11 @@ $(document).ready(function() {
         $("#team2").html(team2Name);
         $("#questionNumber").html("Question Number " + question);
 
-        let coinFlip = Math.floor((Math.random() * 2) + 1);
+        coinFlip = Math.floor((Math.random() * 2) + 1);
         
         if (coinFlip === 1) {
             $("#questionArea").html(team1Name + " will go first");
-            $("#one").css("background-color", "red");
+            $("#one").css("background-color", "green");
         } else {
             $("#questionArea").html(team2Name + " will go first");
             $("#two").css("background-color", "green");
@@ -41,6 +45,25 @@ $(document).ready(function() {
          timer();
     });
 
+    $("#upArrow").click(function() {
+        $(".infoSection").empty();
+        $(".arrows").hide();
+        guess = guess + .1;
+        checkAnswer();
+    });
+
+    $("#downArrow").click(function() {
+        $(".infoSection").empty();
+        $(".arrows").hide();
+        guess = guess - .1;
+        checkAnswer();
+    });
+
+    $("#sizing-addon23").click(function() {
+        guess = $("#guess").val().trim();
+        nextTeamGuess();
+    });
+
 
     function timer() {
 	    intervalId = setInterval(count, 10);
@@ -51,12 +74,41 @@ $(document).ready(function() {
             clearInterval(intervalId);
             $("#timer").css("font-size", "90px");
             $("#timer").html("TIME TO MAKE A GUESS");
+            $("#guessArea").show();
+            
         } else if (time % 100 === 0) { 
             if (time < 1100) {
                 $("#timer").css("color", "red");
             }
-            $("#timer").html(time/100); }
-            time--;
+            if (time < 4600) {
+                $("#timer").html(time/100);
+            }
+        }
+        time--;
     }
+
+    function nextTeamGuess() {
+        $("#timer").css("font-size", "35px");
+        $("#timer").hide();
+        $(".teamArea").css("background-color", "black");
+        $("#guessArea").hide();
+        $(".arrows").fadeIn("slow");
+        if (coinFlip === 1) {
+            $("#teamName").html(team2Name + ",");
+            $("#two").css("background-color", "green");
+            
+        } else {
+            $("#teamName").html(team1Name + ",");
+            $("#one").css("background-color", "green");
+        }
+        $("#message").html(" do you think it is HIGHER or LOWER than");
+        $("#teamGuess").html(guess);  
+    }
+
+    function checkAnswer() {
+        $("#message").html("The actual answer is")
+    }
+
+
 
 });
