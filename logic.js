@@ -1,14 +1,20 @@
 $(document).ready(function() {
     let team1Name = "";
     let team2Name = "";
-    let question = 1;
+    let firstTeam = "";
+    let secondTeam = "";
+    let question = 0;
+    let team1Score = 0;
+    let team2Score = 0;
     let guess = "";
-    let x = 0;
+    let arrowGuess = "";
+    let x = -1;
     let coinflip = 0;
-    let time = 0;
+    let time = 200;
     $("#nextQuestion").hide();
     $("#guessArea").hide();
     $(".arrows").hide();
+    $("#checkFinalAnswer").hide();
     let questions = ["What percent of American homes have some sort of computer?",
     "Women earn what % of all undergraduate computer and information sciences degrees?",
     "% of Fortune 50 companies that use GITHUB Enterprise",
@@ -25,14 +31,17 @@ $(document).ready(function() {
         $("#beginGame").hide();
         $("#team1").html(team1Name);
         $("#team2").html(team2Name);
-        $("#questionNumber").html("Question Number " + question);
 
         coinFlip = Math.floor((Math.random() * 2) + 1);
         
         if (coinFlip === 1) {
+            firstTeam = team1Name;
+            secondTeam = team2Name;
             $("#questionArea").html(team1Name + " will go first");
             $("#one").css("background-color", "green");
         } else {
+            firstTeam = team2Name;
+            secondTeam = team1Name;
             $("#questionArea").html(team2Name + " will go first");
             $("#two").css("background-color", "green");
         }
@@ -40,28 +49,80 @@ $(document).ready(function() {
     });
 
     $("#nextQuestion").click(function() {
-         $("#questionArea").html(questions[3]);
-         $("#nextQuestion").hide();
-         timer();
+        $("#guess").val("");
+        question++;
+        $("#questionNumber").html("Question Number " + question);
+
+        if (question > 1) {
+            if (firstTeam === team1Name) {
+                firstTeam = team2Name;
+                secondTeam = team1Name;
+                $("#two").css("background-color", "green");
+            } else {
+                firstTeam = team1Name;
+                secondTeam = team2Name;
+                $("#one").css("background-color", "green");
+            }
+        }
+            
+
+        time = 200;
+        x++;
+        $(".infoSection").empty();
+        $("#questionArea").html(questions[x]);
+        $("#nextQuestion").hide();
+        timer();
     });
 
     $("#upArrow").click(function() {
         $(".infoSection").empty();
         $(".arrows").hide();
-        guess = guess + .1;
+        arrowGuess = "HIGHER";
         checkAnswer();
     });
 
     $("#downArrow").click(function() {
         $(".infoSection").empty();
         $(".arrows").hide();
-        guess = guess - .1;
+        arrowGuess = "LOWER";
         checkAnswer();
     });
 
     $("#sizing-addon23").click(function() {
         guess = $("#guess").val().trim();
         nextTeamGuess();
+    });
+
+    $("#checkFinalAnswer").click(function() {
+        $("#checkFinalAnswer").hide();
+        $("#message").show();
+        $("#message").html("The answer is " + answers[x] + "%");
+        $("#teamGuess").show();
+        
+        if ((guess < answers[x] && arrowGuess === "HIGHER") || (guess > answers[x] && arrowGuess === "LOWER")) {
+            // secondTeam wins a point
+            $("#teamGuess").html(secondTeam + " wins a point!");
+            if (secondTeam === team1Name) {
+                team1Score++;
+                $("#team1Score").html(team1Score);
+            } else {
+                team2Score++;
+                $("#team2Score").html(team2Score);
+            }
+        } else {
+            // firstTeam wins a point
+            $("#teamGuess").html(firstTeam + " wins a point!");
+
+            if (firstTeam === team1Name) {
+                team1Score++;
+                $("#team1Score").html(team1Score);
+            } else {
+                team2Score++;
+                $("#team2Score").html(team2Score);
+            }
+        }
+        $("#nextQuestion").show();
+
     });
 
 
@@ -93,20 +154,24 @@ $(document).ready(function() {
         $(".teamArea").css("background-color", "black");
         $("#guessArea").hide();
         $(".arrows").fadeIn("slow");
-        if (coinFlip === 1) {
+
+        if (firstTeam === team1Name) {
             $("#teamName").html(team2Name + ",");
             $("#two").css("background-color", "green");
-            
         } else {
             $("#teamName").html(team1Name + ",");
             $("#one").css("background-color", "green");
         }
+
         $("#message").html(" do you think it is HIGHER or LOWER than");
-        $("#teamGuess").html(guess);  
+        $("#teamGuess").html(guess + "%?");  
     }
 
     function checkAnswer() {
-        $("#message").html("The actual answer is")
+        $("#timer").show();
+        $(".teamArea").css("background-color", "black");
+        $("#timer").html(firstTeam + " guessed " + guess + "%, and " + secondTeam + " thinks it is " + arrowGuess);
+        $("#checkFinalAnswer").fadeIn("slow");
     }
 
 

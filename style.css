@@ -40,7 +40,7 @@ body {
 
 #teamName, #teamGuess {
     color: green;
-    font-size: 80px;
+    font-size: 60px;
 }
 
 #message {
@@ -55,11 +55,15 @@ body {
 
 #upArrow {
     position: absolute;
-    margin-top: -305px;
+    margin-top: -23%;
 
 }
 
 #downArrow {
     position: absolute;
-    margin-top: -120px;
+    margin-top: -7%;
+}
+
+#checkFinalAnswer {
+    font-size: 50px;
 }
