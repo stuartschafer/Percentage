@@ -3,14 +3,16 @@ $(document).ready(function() {
     let team2Name = "";
     let firstTeam = "";
     let secondTeam = "";
+    let nextTeam = "";
     let question = 0;
     let team1Score = 0;
     let team2Score = 0;
     let guess = "";
     let arrowGuess = "";
+    let timeframe = "";
     let x = -1;
     let coinflip = 0;
-    let time = 200;
+    let time = 0;
     $("#nextQuestion").hide();
     $("#guessArea").hide();
     $(".arrows").hide();
@@ -49,6 +51,9 @@ $(document).ready(function() {
     });
 
     $("#nextQuestion").click(function() {
+        $(".teamArea").css("background-color", "black");
+        $("#questionNumber").show();
+        $(".teamArea").removeClass("pulse");
         $("#guess").val("");
         question++;
         $("#questionNumber").html("Question Number " + question);
@@ -71,10 +76,12 @@ $(document).ready(function() {
         $(".infoSection").empty();
         $("#questionArea").html(questions[x]);
         $("#nextQuestion").hide();
+        timeframe = "firstGuess";
         timer();
     });
 
     $("#upArrow").click(function() {
+        clearInterval(intervalId);
         $(".infoSection").empty();
         $(".arrows").hide();
         arrowGuess = "HIGHER";
@@ -82,6 +89,7 @@ $(document).ready(function() {
     });
 
     $("#downArrow").click(function() {
+        clearInterval(intervalId);
         $(".infoSection").empty();
         $(".arrows").hide();
         arrowGuess = "LOWER";
@@ -94,33 +102,52 @@ $(document).ready(function() {
     });
 
     $("#checkFinalAnswer").click(function() {
+        $("#questionNumber").empty();
         $("#checkFinalAnswer").hide();
         $("#message").show();
-        $("#message").html("The answer is " + answers[x] + "%");
+        $("#message").html("The answer is " + answers[x] + "% and ");
         $("#teamGuess").show();
         
         if ((guess < answers[x] && arrowGuess === "HIGHER") || (guess > answers[x] && arrowGuess === "LOWER")) {
             // secondTeam wins a point
-            $("#teamGuess").html(secondTeam + " wins a point!");
+            $("#message").append(secondTeam + " wins a point!");
+
             if (secondTeam === team1Name) {
+                $("#one").addClass("pulse");
+                $("#one").css("background-color", "green");
                 team1Score++;
                 $("#team1Score").html(team1Score);
             } else {
+                $("#two").addClass("pulse");
+                $("#two").css("background-color", "green");
                 team2Score++;
                 $("#team2Score").html(team2Score);
             }
         } else {
             // firstTeam wins a point
-            $("#teamGuess").html(firstTeam + " wins a point!");
+            $("#message").append(firstTeam + " wins a point!");
 
             if (firstTeam === team1Name) {
+                $("#one").addClass("pulse");
+                $("#one").css("background-color", "green");
                 team1Score++;
                 $("#team1Score").html(team1Score);
             } else {
+                $("#two").addClass("pulse");
+                $("#two").css("background-color", "green");
                 team2Score++;
                 $("#team2Score").html(team2Score);
             }
         }
+        
+        if (firstTeam === team1Name) {
+            nextTeam = team2Name;
+        } else {
+            nextTeam = team1Name;
+        }
+        $("#timer").css("font-size", "40px");
+        $("#timer").css("color", "white");
+        $("#timer").html(nextTeam + " will be guessing first for the next round.")
         $("#nextQuestion").show();
 
     });
@@ -133,11 +160,15 @@ $(document).ready(function() {
     function count () {
         if (time === 0) {
             clearInterval(intervalId);
-            $("#timer").css("font-size", "90px");
+            $("#timer").css("font-size", "60px");
             $("#timer").html("TIME TO MAKE A GUESS");
-            $("#guessArea").show();
+            if (timeframe === "firstGuess") {
+                $("#guessArea").show();
+            }
+            
             
         } else if (time % 100 === 0) { 
+            $("#timer").css("font-size", "60px");
             if (time < 1100) {
                 $("#timer").css("color", "red");
             }
@@ -149,7 +180,7 @@ $(document).ready(function() {
     }
 
     function nextTeamGuess() {
-        $("#timer").css("font-size", "35px");
+        // $("#timer").css("font-size", "35px");
         $("#timer").hide();
         $(".teamArea").css("background-color", "black");
         $("#guessArea").hide();
@@ -164,12 +195,17 @@ $(document).ready(function() {
         }
 
         $("#message").html(" do you think it is HIGHER or LOWER than");
-        $("#teamGuess").html(guess + "%?");  
+        $("#teamGuess").html(guess + "%?");
+        $("#timer").show();
+        timeframe = "secondGuess";
+        time = 200;
+        timer(); 
     }
 
     function checkAnswer() {
         $("#timer").show();
         $(".teamArea").css("background-color", "black");
+        $("#timer").css("font-size", "40px");
         $("#timer").html(firstTeam + " guessed " + guess + "%, and " + secondTeam + " thinks it is " + arrowGuess);
         $("#checkFinalAnswer").fadeIn("slow");
     }

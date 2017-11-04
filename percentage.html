@@ -40,7 +40,7 @@
         </div>
         <!-- The mid section at the top  -->
         <div class="col text-center" id="mid">
-            <button id="beginGame">Flip to see who goes first</button>
+            <button type="button" class="btn btn-primary btn-lg" id="beginGame">Flip to see who goes first</button>
             <span id="questionNumber"></span>
         </div>
 
@@ -62,7 +62,7 @@
         <div class="col questionSection text-center">
             <span id="questionArea"></span>
             <br>
-            <button id="nextQuestion">Press for question</button> 
+            <button type="button" class="btn btn-warning btn-lg" id="nextQuestion">Press for question</button> 
         </div>
     </div>
 
@@ -72,7 +72,7 @@
     <div class="row text-center">
         <div class="col-md-2 offset-md-4 timer">
             <div class="input-group input-group-lg teamButtons" id="guessArea">
-                <input type="text" class="form-control text-right" id="guess" aria-describedby="sizing-addon1">
+                <input type="number" class="form-control text-right" id="guess" aria-describedby="sizing-addon1">
                 <span class="input-group-addon" id="sizing-addon23">%</span>
             </div>
         </div>
@@ -82,9 +82,10 @@
     <div class="row">
         <div class="col">
             <span id="timer"></span>
+            <br>
             <span class="infoSection" id="teamName"></span>
             <br>
-            <button id="checkFinalAnswer">Check Answer</button>
+            <button type="button" class="btn btn-info btn-lg" id="checkFinalAnswer">Check Answer</button>
             <span class="infoSection" id="message"></span>
             <br>
             <span class="infoSection" id="teamGuess"></span>
