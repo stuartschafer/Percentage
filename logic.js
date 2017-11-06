@@ -1,7 +1,3 @@
-// Check for exact guesses
-// Validation
-// Check if the guess is exact
-
 $(document).ready(function() {
     let team1Name = "";
     let team2Name = "";
@@ -38,16 +34,26 @@ $(document).ready(function() {
     "In 2017 Q3, Javascript had the highest pull rate at 22% on GitHub.",
     "8% of the world’s currency is physical money, the rest only exists on computers."];
     
-
+    // This starts the beginning of the game when the "Flip to see who goes first" is clicked
     $("#beginGame").click(function() {
         $(".teamArea").css("border", "5px solid darkgreen");
         team1Name = $("#team1Entry").val().trim();
         team2Name = $("#team2Entry").val().trim();
+
+        if (team1Name === "") {
+            alert("Please enter a valid name for Team 1");
+            return;
+        } else if (team2Name === "") {
+            alert("Please enter a valid name for Team 2");
+            return;
+        }
+
         $(".teamButtons").hide();
         $("#beginGame").hide();
         $("#team1").html(team1Name);
         $("#team2").html(team2Name);
 
+        // Randomly selects the team to go first
         coinFlip = Math.floor((Math.random() * 2) + 1);
         
         if (coinFlip === 1) {
@@ -64,6 +70,7 @@ $(document).ready(function() {
         $("#nextQuestion").fadeIn("slow");
     });
 
+    // This brings up the next question
     $("#nextQuestion").click(function() {
         $("#questionNumber").show();
         $(".teamArea").removeClass("pulse");
@@ -71,6 +78,7 @@ $(document).ready(function() {
         question++;
         $("#questionNumber").html("Question Number " + question);
 
+        // This switches the 2 teams up (who guesses first) but only after the first round
         if (question > 1) {
             $(".teamArea").css("background-color", "black");
             if (firstTeam === team1Name) {
@@ -83,7 +91,6 @@ $(document).ready(function() {
                 $("#one").css("background-color", "green");
             }
         }
-            
 
         time = 200;
         x++;
@@ -94,6 +101,7 @@ $(document).ready(function() {
         timer();
     });
 
+    // This only shows when the second team has to guess higher or lower AND they select HIGHER
     $("#upArrow").click(function() {
         clearInterval(intervalId);
         $(".infoSection").empty();
@@ -102,6 +110,7 @@ $(document).ready(function() {
         checkAnswer();
     });
 
+    // This only shows when the second team has to guess higher or lower AND they select LOWER
     $("#downArrow").click(function() {
         clearInterval(intervalId);
         $(".infoSection").empty();
@@ -110,11 +119,26 @@ $(document).ready(function() {
         checkAnswer();
     });
 
-    $("#sizing-addon23").click(function() {
+    // This appears when the first team has to enter a % guess
+    $("#firstGuess").click(function() {
         guess = $("#guess").val().trim();
+
+        if (guess < 0 || guess > 100) {
+            alert("Please make a guess between 0 and 100");
+            $("#guess").val("");
+            return;
+        }
+
+        // Checks to see if it is the correct answer
+        if (guess === answers[x].toString()) {
+            $("#guessArea").hide();
+            awardPoint();
+            return;
+        }
         nextTeamGuess();
     });
 
+    // This will appear after a teams has selected HIGHER or LOWER
     $("#checkFinalAnswer").click(function() {
         $("#questionNumber").empty();
         $("#checkFinalAnswer").hide();
@@ -122,23 +146,12 @@ $(document).ready(function() {
         $("#questionArea").html(solutions[x]);
         // $("#message").html("The answer is " + answers[x] + "% and ");
         $("#teamGuess").show();
-        
-        if ((guess < answers[x] && arrowGuess === "HIGHER") || (guess > answers[x] && arrowGuess === "LOWER")) {
-            // secondTeam wins a point
-            $("#questionArea").append("<br>" + secondTeam + " wins a point!");
+        awardPoint();
+    });
 
-            if (secondTeam === team1Name) {
-                $("#one").addClass("pulse");
-                $("#one").css("background-color", "green");
-                team1Score++;
-                $("#team1Score").html(team1Score);
-            } else {
-                $("#two").addClass("pulse");
-                $("#two").css("background-color", "green");
-                team2Score++;
-                $("#team2Score").html(team2Score);
-            }
-        } else {
+    // This runs to see who wins a point
+    function awardPoint() {
+        if ((guess > answers[x] && arrowGuess === "HIGHER") || (guess < answers[x] && arrowGuess === "LOWER") || guess === answers[x]) {
             // firstTeam wins a point
             $("#questionArea").append("<br>" + firstTeam + " wins a point!");
 
@@ -153,8 +166,24 @@ $(document).ready(function() {
                 team2Score++;
                 $("#team2Score").html(team2Score);
             }
+        } else {
+            // secondTeam wins a point
+            $("#questionArea").append("<br>" + secondTeam + " wins a point!");
+
+            if (secondTeam === team1Name) {
+                $("#one").addClass("pulse");
+                $("#one").css("background-color", "green");
+                team1Score++;
+                $("#team1Score").html(team1Score);
+            } else {
+                $("#two").addClass("pulse");
+                $("#two").css("background-color", "green");
+                team2Score++;
+                $("#team2Score").html(team2Score);
+            }
         }
-        
+
+        // THis swaps the teams
         if (firstTeam === team1Name) {
             nextTeam = team2Name;
         } else {
@@ -163,6 +192,7 @@ $(document).ready(function() {
         $("#timer").css("font-size", "40px");
         $("#timer").css("color", "white");
         
+        // This checks to see if the game is over
         if ((x >= 5) && (team1Score === team2Score)) {
             $("#timer").css("color", "red");
             $("#timer").html("WE HAVE A TIE, so 1 more question for a tie-breaker!!! <br>" + nextTeam + " will go first");
@@ -174,9 +204,9 @@ $(document).ready(function() {
             $("#nextQuestion").show();
         }
 
-    });
+    } 
 
-
+    // This is for the count-down timer
     function timer() {
 	    intervalId = setInterval(count, 10);
     }
@@ -191,7 +221,6 @@ $(document).ready(function() {
                 $("#guessArea").show();
             }
             
-            
         } else if (time % 100 === 0) { 
             $("#timer").css("font-size", "60px");
             if (time < 1100) {
@@ -205,12 +234,18 @@ $(document).ready(function() {
     }
 
     function nextTeamGuess() {
-        // $("#timer").css("font-size", "35px");
         $("#timer").hide();
         $(".teamArea").css("background-color", "black");
         $("#guessArea").hide();
         $(".arrows").fadeIn("slow");
 
+        // For an exact guess
+        if (guess === answers[x]) {
+            $("#message").html("WAY TO GO " + firstTeam + "! You guessed it exactly!!! You win a point.");
+            awardPoint();
+        }
+
+        // This changes the background color of the team's turn
         if (firstTeam === team1Name) {
             $("#teamName").html(team2Name + ",");
             $("#two").css("background-color", "green");
