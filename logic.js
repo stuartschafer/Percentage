@@ -1,3 +1,7 @@
+// Check for exact guesses
+// Validation
+// Check if the guess is exact
+
 $(document).ready(function() {
     let team1Name = "";
     let team2Name = "";
@@ -25,7 +29,7 @@ $(document).ready(function() {
     "Percentage of bugs that can be discovered (but not necessarily fixed) when more than one person reviews the source code.",
     "In 2017 Q3, Javascript had the highest pull % on GitHub.  What was it?",
     "This percentage of the world’s currency is physical money, the rest only exists on computers."];
-    let answers = [84, 18, 52, 30, 60, 22, 8];
+    let answers = [79, 18, 52, 30, 60, 22, 8];
     let solutions = ["85% of American homes have either a desktop or laptop computer.",
     "Women earn 18% of all undergraduate computer and information sciences degrees.",
     "52% of Fortune 50 companies use GITHUB Enterprise",
@@ -158,8 +162,17 @@ $(document).ready(function() {
         }
         $("#timer").css("font-size", "40px");
         $("#timer").css("color", "white");
-        $("#timer").html(nextTeam + " will be guessing first for the next round.")
-        $("#nextQuestion").show();
+        
+        if ((x >= 5) && (team1Score === team2Score)) {
+            $("#timer").css("color", "red");
+            $("#timer").html("WE HAVE A TIE, so 1 more question for a tie-breaker!!! <br>" + nextTeam + " will go first");
+            $("#nextQuestion").show();
+        } else if ((x >= 5) && (team1Score || team2Score)) {
+            gameOver();
+        } else {
+            $("#timer").html(nextTeam + " will be guessing first for the next round.");
+            $("#nextQuestion").show();
+        }
 
     });
 
@@ -221,6 +234,14 @@ $(document).ready(function() {
         $("#timer").css("font-size", "40px");
         $("#timer").html(firstTeam + " guessed " + guess + "%, and <br>" + secondTeam + " thinks it is " + arrowGuess);
         $("#checkFinalAnswer").fadeIn("slow");
+    }
+
+    function gameOver() {
+        if (team1Score > team2Score) {
+            $("#timer").html("Congradulations " + team1Name + "!, you have defeated " + team2Name);
+        } else {
+            $("#timer").html("Congradulations " + team2Name + "!, you have defeated " + team1Name);
+        }
     }
 
 
