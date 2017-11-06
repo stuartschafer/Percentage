@@ -279,6 +279,4 @@ $(document).ready(function() {
         }
     }
 
-
-
 });
