@@ -36,6 +36,8 @@ $(document).ready(function() {
     
     // This starts the beginning of the game when the "Flip to see who goes first" is clicked
     $("#beginGame").click(function() {
+        $(".teamArea").removeClass("hvr-bounce-to-bottom");
+        $(".askName").css("color", "white");
         $(".teamArea").css("border", "5px solid darkgreen");
         team1Name = $("#team1Entry").val().trim();
         team2Name = $("#team2Entry").val().trim();
@@ -185,7 +187,7 @@ $(document).ready(function() {
             }
         } else {
             // secondTeam wins a point
-            $("#timer").append("<br> XXXXXX The answer was " + correctGuess + " thus, " + secondTeam + " wins the point!");
+            $("#timer").append("<br> The answer was " + correctGuess + " thus, " + secondTeam + " wins the point!");
 
             if (secondTeam === team1Name) {
                 $("#one").addClass("pulse");

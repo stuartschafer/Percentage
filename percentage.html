@@ -27,31 +27,31 @@
 <div class="container">
     <div class="row">
         <!-- This is for Team 1's name  -->
-        <div class="col teamArea text-center" id="one">
+        <div class="col teamArea text-center hvr-bounce-to-bottom" id="one">
             <div class="input-group input-group-lg teamButtons" id="team1Button">
                 <span class="input-group-addon btn-dark" id="sizing-addon1">Team 1</span>
                 <input type="text" id="team1Entry" class="form-control" placeholder="Pepper Stamper" aria-describedby="sizing-addon1">
             </div>
 
-            <span id="team1"></span>
+            <span class="askName" id="team1">What's your name playa?</span>
             <br>
             <span id="team1Score"></span>
 
         </div>
         <!-- The mid section at the top  -->
         <div class="col text-center" id="mid">
-            <button type="button" class="btn btn-primary btn-lg" id="beginGame">Flip to see who goes first</button>
+            <button type="button" class="btn btn-primary btn-lg hvr-ripple-out" id="beginGame">Flip to see who goes first</button>
             <span id="questionNumber"></span>
         </div>
 
         <!-- This is for Team 2's name  -->
-        <div class="col teamArea text-center" id="two">
+        <div class="col teamArea text-center hvr-bounce-to-bottom" id="two">
             <div class="input-group input-group-lg teamButtons" id="team2Button">
                 <input type="text" class="form-control" id="team2Entry" placeholder="Brownie Midway" aria-describedby="sizing-addon1">
                 <span class="input-group-addon" id="sizing-addon1">Team 2</span>
             </div>
 
-            <span id="team2"></span>
+            <span class="askName" id="team2">What's your uber-cool name?</span>
             <br>
             <span id="team2Score"></span>
         </div>
@@ -62,7 +62,7 @@
         <div class="col questionSection text-center">
             <span id="questionArea"></span>
             <br>
-            <button type="button" class="btn btn-warning btn-lg" id="nextQuestion">Press for question</button> 
+            <button type="button" class="btn btn-warning btn-lg hvr-ripple-out" id="nextQuestion">Press for question</button> 
         </div>
     </div>
 
@@ -70,7 +70,7 @@
 
     <!-- This will display when a team must make a guess  -->
     <div class="row text-center">
-        <div class="col-md-2 offset-md-4 guessing">
+        <div class="col-md-2 offset-md-4 guessing hvr-grow-shadow">
             <div class="input-group input-group-lg teamButtons" id="guessArea">
                 <input type="number" class="form-control text-right" id="guess" aria-describedby="sizing-addon1">
                 <span class="input-group-addon" id="firstGuess">%</span>
@@ -85,7 +85,7 @@
             <br>
             <span class="infoSection" id="teamName"></span>
             <br>
-            <button type="button" class="btn btn-info btn-lg" id="checkFinalAnswer">Check Answer</button>
+            <button type="button" class="btn btn-info btn-lg hvr-ripple-out" id="checkFinalAnswer">Check Answer</button>
             <span class="infoSection" id="message"></span>
             <br>
             <span class="infoSection" id="teamGuess"></span>
