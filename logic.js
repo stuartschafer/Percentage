@@ -26,7 +26,7 @@ $(document).ready(function() {
     "In 2017 Q3, Javascript had the highest pull % on GitHub.  What was it?",
     "This percentage of the world’s currency is physical money, the rest only exists on computers."];
     let answers = [79, 18, 52, 30, 60, 22, 8];
-    let solutions = ["85% of American homes have either a desktop or laptop computer.",
+    let solutions = ["79% of American homes have either a desktop or laptop computer.",
     "Women earn 18% of all undergraduate computer and information sciences degrees.",
     "52% of Fortune 50 companies use GITHUB Enterprise",
     "30% of programmer working time is spent surfing the source code. This navigation involves research, observation, information gathering and other activities.",
@@ -123,7 +123,8 @@ $(document).ready(function() {
 
     // This appears when the first team has to enter a % guess
     $("#firstGuess").click(function() {
-        guess = $("#guess").val().trim();
+        guess = Number($("#guess").val().trim());
+        // guess = $("#guess").val().trim();
 
         if (guess < 0 || guess > 100 || guess === "") {
             alert("Please make a guess between 0 and 100");
@@ -132,7 +133,7 @@ $(document).ready(function() {
         }
 
         // Checks to see if it is the correct answer
-        if (guess === answers[x].toString()) {
+        if (guess === answers[x]) {
             $("#guessArea").hide();
             awardPoint();
             return;
@@ -152,10 +153,24 @@ $(document).ready(function() {
 
     // This runs to see who wins a point
     function awardPoint() {
-        if ((guess > answers[x] && arrowGuess === "HIGHER") || (guess < answers[x] && arrowGuess === "LOWER") || guess === answers[x]) {
-            // firstTeam wins a point
-            $("#questionArea").css("color", "white");
-            $("#questionArea").append("<br>" + firstTeam + " wins a point!");
+        let otherGuess = "";
+        let correctGuess = "";
+        if (arrowGuess === "HIGHER") {
+                otherGuess = "LOWER (" + answers[x] + "%) <img class='smallArrow' src='images/smallDown.png'></img> ";
+                correctGuess = "HIGHER (" + answers[x] + "%) <img class='smallArrow' src='images/smallUp.png'></img> ";
+            } else {
+                otherGuess = "HIGHER (" + answers[x] + "%) <img class='smallArrow' src='images/smallUp.png'></img> ";
+                correctGuess = "LOWER (" + answers[x] + "%) <img class='smallArrow' src='images/smallDown.png'></img> ";
+            }
+
+        // firstTeam wins a point
+        if ((guess < answers[x] && arrowGuess === "LOWER") || (guess > answers[x] && arrowGuess === "HIGHER") || (guess === answers[x])) {
+            if (guess === answers[x]) {
+                $("#timer").empty();
+                $("#timer").append("<br> The answer is exactly (" + guess + "%) thus, " + firstTeam + " wins the point!");
+            } else {
+                $("#timer").append("<br> The answer was " + otherGuess + " thus, " + firstTeam + " wins the point!");
+            }
 
             if (firstTeam === team1Name) {
                 $("#one").addClass("pulse");
@@ -170,7 +185,7 @@ $(document).ready(function() {
             }
         } else {
             // secondTeam wins a point
-            $("#questionArea").append("<br>" + secondTeam + " wins a point!");
+            $("#timer").append("<br> XXXXXX The answer was " + correctGuess + " thus, " + secondTeam + " wins the point!");
 
             if (secondTeam === team1Name) {
                 $("#one").addClass("pulse");
@@ -191,18 +206,17 @@ $(document).ready(function() {
         } else {
             nextTeam = team1Name;
         }
-        $("#timer").css("font-size", "40px");
+        $("#timer").css("font-size", "30px");
         $("#timer").css("color", "white");
         
         // This checks to see if the game is over
         if ((x >= 5) && (team1Score === team2Score)) {
-            $("#timer").css("color", "red");
-            $("#timer").html("WE HAVE A TIE, so 1 more question for a tie-breaker!!! <br>" + nextTeam + " will go first");
+            $("#timer").append("<br>WE HAVE A TIE, so 1 more question for a tie-breaker!!! <br>" + nextTeam + " will go first");
             $("#nextQuestion").show();
         } else if ((x >= 5) && (team1Score || team2Score)) {
             gameOver();
         } else {
-            $("#timer").html(nextTeam + " will be guessing first for the next round.");
+            $("#timer").append("<br><br>" + nextTeam + " will be guessing first for the next round.");
             $("#nextQuestion").show();
         }
 
@@ -268,12 +282,12 @@ $(document).ready(function() {
         $("#timer").show();
         $(".teamArea").css("background-color", "black");
         $("#timer").css("color", "white");
-        $("#timer").css("font-size", "40px");
-        $("#timer").html(firstTeam + " guessed " + guess + "%, and <br>" + secondTeam + " thinks it is " + arrowGuess + " ");
+        $("#timer").css("font-size", "30px");
+        $("#timer").html(firstTeam + " guessed " + guess + "%, and " + secondTeam + " thinks it is " + arrowGuess + " ");
         if (arrowGuess === "HIGHER") {
-            $("#timer").append("<img class='smallArrow' src='images/smallUp.png'></img>");
+            $("#timer").append("<img class='smallArrow' src='images/smallUp.png'></img> .");
         } else {
-            $("#timer").append("<img class='smallArrow' src='images/smallDown.png'></img>");
+            $("#timer").append("<img class='smallArrow' src='images/smallDown.png'></img> .");
         }
         $("#checkFinalAnswer").fadeIn("slow");
     }
