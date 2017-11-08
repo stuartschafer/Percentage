@@ -52,6 +52,8 @@ $(document).ready(function() {
         $("#beginGame").hide();
         $("#team1").html(team1Name);
         $("#team2").html(team2Name);
+        $("#team1Score").html("Score: 0");
+        $("#team2Score").html("Score: 0");
 
         // Randomly selects the team to go first
         coinFlip = Math.floor((Math.random() * 2) + 1);
@@ -123,7 +125,7 @@ $(document).ready(function() {
     $("#firstGuess").click(function() {
         guess = $("#guess").val().trim();
 
-        if (guess < 0 || guess > 100) {
+        if (guess < 0 || guess > 100 || guess === "") {
             alert("Please make a guess between 0 and 100");
             $("#guess").val("");
             return;
@@ -144,7 +146,6 @@ $(document).ready(function() {
         $("#checkFinalAnswer").hide();
         $("#message").show();
         $("#questionArea").html(solutions[x]);
-        // $("#message").html("The answer is " + answers[x] + "% and ");
         $("#teamGuess").show();
         awardPoint();
     });
@@ -153,18 +154,19 @@ $(document).ready(function() {
     function awardPoint() {
         if ((guess > answers[x] && arrowGuess === "HIGHER") || (guess < answers[x] && arrowGuess === "LOWER") || guess === answers[x]) {
             // firstTeam wins a point
+            $("#questionArea").css("color", "white");
             $("#questionArea").append("<br>" + firstTeam + " wins a point!");
 
             if (firstTeam === team1Name) {
                 $("#one").addClass("pulse");
                 $("#one").css("background-color", "green");
                 team1Score++;
-                $("#team1Score").html(team1Score);
+                $("#team1Score").html("Score: " + team1Score);
             } else {
                 $("#two").addClass("pulse");
                 $("#two").css("background-color", "green");
                 team2Score++;
-                $("#team2Score").html(team2Score);
+                $("#team2Score").html("Score: " + team2Score);
             }
         } else {
             // secondTeam wins a point
@@ -174,16 +176,16 @@ $(document).ready(function() {
                 $("#one").addClass("pulse");
                 $("#one").css("background-color", "green");
                 team1Score++;
-                $("#team1Score").html(team1Score);
+                $("#team1Score").html("Score: " + team1Score);
             } else {
                 $("#two").addClass("pulse");
                 $("#two").css("background-color", "green");
                 team2Score++;
-                $("#team2Score").html(team2Score);
+                $("#team2Score").html("Score: " + team2Score);
             }
         }
 
-        // THis swaps the teams
+        // This swaps the teams
         if (firstTeam === team1Name) {
             nextTeam = team2Name;
         } else {
@@ -267,7 +269,12 @@ $(document).ready(function() {
         $(".teamArea").css("background-color", "black");
         $("#timer").css("color", "white");
         $("#timer").css("font-size", "40px");
-        $("#timer").html(firstTeam + " guessed " + guess + "%, and <br>" + secondTeam + " thinks it is " + arrowGuess);
+        $("#timer").html(firstTeam + " guessed " + guess + "%, and <br>" + secondTeam + " thinks it is " + arrowGuess + " ");
+        if (arrowGuess === "HIGHER") {
+            $("#timer").append("<img class='smallArrow' src='images/smallUp.png'></img>");
+        } else {
+            $("#timer").append("<img class='smallArrow' src='images/smallDown.png'></img>");
+        }
         $("#checkFinalAnswer").fadeIn("slow");
     }
 
