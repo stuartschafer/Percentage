@@ -13,43 +13,47 @@ $(document).ready(function() {
     let x = -1;
     let coinflip = 0;
     let time = 0;
-    var wrong = new Audio("wrong.mp3");
+    let wrong = new Audio("sounds/wrong.mp3");
+    let clap = new Audio("sounds/clap.wav");
+    let boo = new Audio("sounds/boo.wav");
     $("#nextQuestion").hide();
     $("#guessArea").hide();
     $(".arrows").hide();
     $("#checkFinalAnswer").hide();
+    $("#gameOver").hide();
     let questions = ["What % of American homes have either a desktop or laptop computer?",
     "Women earn what % of all undergraduate computer and information sciences degrees?",
-    "% of Fortune 50 companies that use GITHUB Enterprise",
-    "This % of programmer working time is spent surfing the source code. This navigation involves research, observation, information gathering and other activities.",
-    "Percentage of bugs that can be discovered (but not necessarily fixed) when more than one person reviews the source code.",
-    "In 2017 Q3, Javascript had the highest pull % on GitHub.  What was it?",
-    "This percentage of the world’s currency is physical money, the rest only exists on computers."];
-    let answers = [79, 18, 52, 30, 60, 22, 8];
+    "What percentage of Fortune 50 companies use GITHUB Enterprise?",
+    "This % of programmer working time is spent surfing between multiple files along the source code. This navigation involves research, observation, information gathering and other activities.",
+    "What percentage of bugs can be discovered (but not necessarily fixed) when more than one person reviews the source code?",
+    "In Q3 of 2017, Javascript had the highest pull % on GitHub.  What was it?",
+    "This percentage of the world’s currency is physical money, the rest only exists on computers.",
+    "By 2018, this % of all STEM jobs are projected to be in computer science-related fields."];
+    let answers = [79, 18, 52, 30, 60, 22, 8, 51];
     let solutions = ["79% of American homes have either a desktop or laptop computer.",
     "Women earn 18% of all undergraduate computer and information sciences degrees.",
     "52% of Fortune 50 companies use GITHUB Enterprise",
-    "30% of programmer working time is spent surfing the source code. This navigation involves research, observation, information gathering and other activities.",
+    "30% of programmer working time is spent surfing between multiple files along the source code. This navigation involves research, observation, information gathering and other activities.",
     "60% of bugs can be discovered (but not necessarily fixed) when more than one person reviews the source code.",
-    "In 2017 Q3, Javascript had the highest pull rate at 22% on GitHub.",
-    "8% of the world’s currency is physical money, the rest only exists on computers."];
+    "In Q3 of 2017, Javascript had the highest pull rate at 22% on GitHub.",
+    "8% of the world’s currency is physical money, the rest only exists on computers.",
+    "By 2018, 51% of all STEM jobs are projected to be in computer science-related fields."];
     
     // This starts the beginning of the game when the "Flip to see who goes first" is clicked
     $("#beginGame").click(function() {
-        $(".teamArea").removeClass("hvr-bounce-to-bottom");
-        $(".askName").css("color", "white");
-        $(".teamArea").css("border", "5px solid darkgreen");
+        $("#teamName").empty();
         team1Name = $("#team1Entry").val().trim();
         team2Name = $("#team2Entry").val().trim();
 
-        if (team1Name === "") {
-            alert("Please enter a valid name for Team 1");
-            return;
-        } else if (team2Name === "") {
-            alert("Please enter a valid name for Team 2");
+        if (team1Name === "" || team2Name === "") {
+            boo.play();
+            $("#teamName").html("Please enter a valid name for both teams.");
             return;
         }
 
+        $(".teamArea").removeClass("hvr-bounce-to-bottom");
+        $(".askName").css("color", "white");
+        $(".teamArea").css("border", "5px solid darkgreen");
         $(".teamButtons").hide();
         $("#beginGame").hide();
         $("#team1").html(team1Name);
@@ -76,6 +80,9 @@ $(document).ready(function() {
 
     // This brings up the next question
     $("#nextQuestion").click(function() {
+        $(".infoSection").empty();
+        $("#timer").empty();
+        $("#nextQuestion").hide();
         $("#questionNumber").show();
         $(".teamArea").removeClass("pulse");
         $("#guess").val("");
@@ -95,12 +102,13 @@ $(document).ready(function() {
                 $("#one").css("background-color", "green");
             }
         }
-
-        time = 200;
+        if (x === 2) {
+            time = 5100;
+        } else {
+            time = 4600;
+        }
         x++;
-        $(".infoSection").empty();
         $("#questionArea").html(questions[x]);
-        $("#nextQuestion").hide();
         timeframe = "firstGuess";
         timer();
     });
@@ -125,11 +133,17 @@ $(document).ready(function() {
 
     // This appears when the first team has to enter a % guess
     $("#firstGuess").click(function() {
+        clearInterval(intervalId);
+        $("#timer").css("font-size", "30px");
+        $("#timer").css("color", "white");
         guess = Number($("#guess").val().trim());
-        // guess = $("#guess").val().trim();
+        guessStr = $("#guess").val().trim();
+        $("#teamName").empty();
+        $("#guessArea").hide();
 
-        if (guess < 0 || guess > 100 || guess === "") {
-            alert("Please make a guess between 0 and 100");
+        if (guess < 0 || guess > 100 || guessStr === "") {
+            boo.play();
+            $("#teamName").html("Please make a guess between 0 and 100");
             $("#guess").val("");
             return;
         }
@@ -153,8 +167,13 @@ $(document).ready(function() {
         awardPoint();
     });
 
+    $("#gameOver").click(function() {
+        gameOver();
+    });
+
     // This runs to see who wins a point
     function awardPoint() {
+        clap.play();
         let otherGuess = "";
         let correctGuess = "";
         if (arrowGuess === "HIGHER") {
@@ -216,7 +235,7 @@ $(document).ready(function() {
             $("#timer").append("<br>WE HAVE A TIE, so 1 more question for a tie-breaker!!! <br>" + nextTeam + " will go first");
             $("#nextQuestion").show();
         } else if ((x >= 5) && (team1Score || team2Score)) {
-            gameOver();
+            $("#gameOver").show();
         } else {
             $("#timer").append("<br><br>" + nextTeam + " will be guessing first for the next round.");
             $("#nextQuestion").show();
@@ -236,16 +255,19 @@ $(document).ready(function() {
             $("#timer").css("font-size", "60px");
             $("#timer").html("TIME TO MAKE A GUESS");
             if (timeframe === "firstGuess") {
-                $("#guessArea").show();
+                
             }
             
         } else if (time % 100 === 0) { 
-            $("#timer").css("font-size", "60px");
+            $("#timer").css("font-size", "150px");
             if (time < 1100) {
                 $("#timer").css("color", "red");
             }
-            if (time < 4600) {
+            if (time < 4100) {
                 $("#timer").html(time/100);
+                if (timeframe === "firstGuess") {
+                    $("#guessArea").show();
+                }
             }
         }
         time--;
@@ -276,7 +298,7 @@ $(document).ready(function() {
         $("#teamGuess").html(guess + "%?");
         $("#timer").show();
         timeframe = "secondGuess";
-        time = 200;
+        time = 3000;
         timer(); 
     }
 
