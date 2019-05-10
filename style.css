@@ -55,6 +55,19 @@ body {
     font-size: 40px;
 }
 
+#teamGuess {
+    color: yellow;
+}
+
+#finalAnswer {
+    color: yellow;
+    font-size: 50px;
+}
+
+#guessNext {
+    font-size: 20px;
+}
+
 #message {
     font-size: 40px;
 }
@@ -113,7 +126,7 @@ body {
   }
 
   50% {
-    transform: scale(1.4);
+    transform: scale(1.5);
   }
 
   100% {
@@ -129,19 +142,19 @@ body {
 /* Ripple Out */
 @-webkit-keyframes hvr-ripple-out {
     100% {
-        top: -12px;
-        right: -12px;
-        bottom: -12px;
-        left: -12px;
+        top: -15px;
+        right: -15px;
+        bottom: -15px;
+        left: -15px;
         opacity: 0;
     }
 }
 @keyframes hvr-ripple-out {
     100% {
-        top: -12px;
-        right: -12px;
-        bottom: -12px;
-        left: -12px;
+        top: -15px;
+        right: -15px;
+        bottom: -15px;
+        left: -15px;
         opacity: 0;
     }
 }

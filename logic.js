@@ -104,8 +104,10 @@ $(document).ready(function() {
         }
         if (x === 2) {
             time = 5100;
+            //time = 300;
         } else {
             time = 4600;
+            //time = 600;
         }
         x++;
         $("#questionArea").html(questions[x]);
@@ -145,6 +147,7 @@ $(document).ready(function() {
             boo.play();
             $("#teamName").html("Please make a guess between 0 and 100");
             $("#guess").val("");
+            $("#guessArea").show();
             return;
         }
 
@@ -190,7 +193,7 @@ $(document).ready(function() {
                 $("#timer").empty();
                 $("#timer").append("<br> The answer is exactly (" + guess + "%) thus, " + firstTeam + " wins the point!");
             } else {
-                $("#timer").append("<br> The answer was " + otherGuess + " thus, " + firstTeam + " wins the point!");
+                $("#timer").append("<br> The answer was <span id='finalAnswer'>" + otherGuess + "</span> thus, " + firstTeam + " wins the point!");
             }
 
             if (firstTeam === team1Name) {
@@ -206,7 +209,7 @@ $(document).ready(function() {
             }
         } else {
             // secondTeam wins a point
-            $("#timer").append("<br> The answer was " + correctGuess + " thus, " + secondTeam + " wins the point!");
+            $("#timer").append("<br> The answer was <span id='finalAnswer'>" + correctGuess + "</span> thus, " + secondTeam + " wins the point!");
 
             if (secondTeam === team1Name) {
                 $("#one").addClass("pulse");
@@ -237,7 +240,7 @@ $(document).ready(function() {
         } else if ((x >= 5) && (team1Score || team2Score)) {
             $("#gameOver").show();
         } else {
-            $("#timer").append("<br><br>" + nextTeam + " will be guessing first for the next round.");
+            $("#timer").append("<br><br><span id='guessNext'>" + nextTeam + " will be guessing first for the next round.</span>");
             $("#nextQuestion").show();
         }
 
@@ -294,7 +297,7 @@ $(document).ready(function() {
             $("#one").css("background-color", "green");
         }
 
-        $("#message").html(" do you think it is HIGHER or LOWER than");
+        $("#message").html(" do you think it is HIGHER or LOWER than ");
         $("#teamGuess").html(guess + "%?");
         $("#timer").show();
         timeframe = "secondGuess";
