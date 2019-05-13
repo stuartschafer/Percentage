@@ -127,7 +127,6 @@ $(document).ready(function() {
 
     // This appears when the first team has to enter a % guess
     $("#firstGuess").click(function() {
-        clearInterval(intervalId);
         $("#timer").css("font-size", "30px");
         $("#timer").css("color", "white");
         guess = Number($("#guess").val().trim());
@@ -141,6 +140,8 @@ $(document).ready(function() {
             $("#guess").val("");
             $("#guessArea").show();
             return;
+        } else {
+            clearInterval(intervalId);
         }
 
         // Checks to see if it is the correct answer
