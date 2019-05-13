@@ -62,6 +62,7 @@ body {
 #finalAnswer {
     color: yellow;
     font-size: 50px;
+    background-color: dimgrey;
 }
 
 #guessNext {
@@ -75,7 +76,7 @@ body {
 .arrows {
     height: 125px;
     width: 125px;
-    margin-left: 75%;
+    margin-left: 70%;
 }
 
 #upArrow {
@@ -109,6 +110,10 @@ body {
 
 .smallArrow {
     height: 35px;
+}
+
+.highlight {
+    background-color: purple;
 }
 
 

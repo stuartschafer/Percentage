@@ -21,23 +21,15 @@ $(document).ready(function() {
     $(".arrows").hide();
     $("#checkFinalAnswer").hide();
     $("#gameOver").hide();
-    let questions = ["What % of American homes have either a desktop or laptop computer?",
-    "Women earn what % of all undergraduate computer and information sciences degrees?",
-    "What percentage of Fortune 50 companies use GITHUB Enterprise?",
-    "This % of programmer working time is spent surfing between multiple files along the source code. This navigation involves research, observation, information gathering and other activities.",
-    "What percentage of bugs can be discovered (but not necessarily fixed) when more than one person reviews the source code?",
-    "In Q3 of 2017, Javascript had the highest pull % on GitHub.  What was it?",
-    "This percentage of the world’s currency is physical money, the rest only exists on computers.",
-    "By 2018, this % of all STEM jobs are projected to be in computer science-related fields."];
-    let answers = [79, 18, 52, 30, 60, 22, 8, 51];
-    let solutions = ["79% of American homes have either a desktop or laptop computer.",
-    "Women earn 18% of all undergraduate computer and information sciences degrees.",
-    "52% of Fortune 50 companies use GITHUB Enterprise",
-    "30% of programmer working time is spent surfing between multiple files along the source code. This navigation involves research, observation, information gathering and other activities.",
-    "60% of bugs can be discovered (but not necessarily fixed) when more than one person reviews the source code.",
-    "In Q3 of 2017, Javascript had the highest pull rate at 22% on GitHub.",
-    "8% of the world’s currency is physical money, the rest only exists on computers.",
-    "By 2018, 51% of all STEM jobs are projected to be in computer science-related fields."];
+    let questions = ["In 2018, what percentage of consumers said they were confident in the food supply?",
+                    "When asked what is the most important food safety issue today, this percentage of people said it is foodborne illness from bacteria.",
+                    "Since 2013, recalls of hazardous meat and poultry are up by this percentage.",
+                    "What percentage of foodborne illness outbreaks in the US occur at restaurants?",
+                    "Produce accounts for this percentage of food that is unconsumed (and wasted).",
+                    "This % of foodborne illnesses resulting in death comes from Salmonella.",
+                    "What percent of the world do Americans account for from food borne illnesses in the world?"];
+    let answers = [68, 24, 83, 60, 52, 31, 17];
+    // let solutions = ["79% of American homes have either a desktop or laptop computer."];
     
     // This starts the beginning of the game when the "Flip to see who goes first" is clicked
     $("#beginGame").click(function() {
@@ -165,7 +157,7 @@ $(document).ready(function() {
         $("#questionNumber").empty();
         $("#checkFinalAnswer").hide();
         $("#message").show();
-        $("#questionArea").html(solutions[x]);
+        // $("#questionArea").html(solutions[x]);
         $("#teamGuess").show();
         awardPoint();
     });
@@ -320,9 +312,14 @@ $(document).ready(function() {
     }
 
     function gameOver() {
+        $("#one").removeClass("pulse");
+        $("#two").removeClass("pulse");
+        $("#timer").addClass("highlight")
         if (team1Score > team2Score) {
+            $("#one").addClass("pulse");
             $("#timer").html("Congradulations " + team1Name + "!, you have defeated " + team2Name);
         } else {
+            $("#two").addClass("pulse");
             $("#timer").html("Congradulations " + team2Name + "!, you have defeated " + team1Name);
         }
     }
