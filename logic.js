@@ -27,8 +27,10 @@ $(document).ready(function() {
                     "What percentage of foodborne illness outbreaks in the US occur at restaurants?",
                     "Produce accounts for this percentage of food that is unconsumed (and wasted).",
                     "This % of foodborne illnesses resulting in death comes from Salmonella.",
+                    "What percent of the population affected by food borne illnesses do children account for?",
+                    "It is estimated that of all the 2018 Food Recalls, this percent could have been prevented.",
                     "What percent of the world do Americans account for from food borne illnesses in the world?"];
-    let answers = [68, 24, 83, 60, 52, 31, 17];
+    let answers = [68, 24, 83, 60, 52, 31, 40, 56, 17];
     // let solutions = ["79% of American homes have either a desktop or laptop computer."];
     
     // This starts the beginning of the game when the "Flip to see who goes first" is clicked
@@ -227,10 +229,10 @@ $(document).ready(function() {
         $("#timer").css("color", "white");
         
         // This checks to see if the game is over
-        if ((x >= 5) && (team1Score === team2Score)) {
+        if ((x >= 7) && (team1Score === team2Score)) {
             $("#timer").append("<br>WE HAVE A TIE, so 1 more question for a tie-breaker!!! <br>" + nextTeam + " will go first");
             $("#nextQuestion").show();
-        } else if ((x >= 5) && (team1Score || team2Score)) {
+        } else if ((x >= 7) && (team1Score || team2Score)) {
             $("#gameOver").show();
         } else {
             $("#timer").append("<br><br><span id='guessNext'>" + nextTeam + " will be guessing first for the next round.</span>");
